@@ -55,9 +55,6 @@ export default function Page() {
         if (filterParams.businessType) {
           params.set("businessType", filterParams.businessType)
         }
-        if (filterParams.isOpen !== undefined) {
-          params.set("isOpen", String(filterParams.isOpen))
-        }
         if (filterParams.minRoomCount !== undefined) {
           params.set("minRoomCount", String(filterParams.minRoomCount))
         }
@@ -87,11 +84,10 @@ export default function Page() {
       boundsRef.current = bounds
       fetchMarkers(bounds, {
         businessType: filters.businessType ?? undefined,
-        isOpen: filters.isOpen ?? undefined,
         minRoomCount: debouncedMinRoomCount ?? undefined,
       })
     },
-    [fetchMarkers, filters.businessType, filters.isOpen, debouncedMinRoomCount]
+    [fetchMarkers, filters.businessType, debouncedMinRoomCount]
   )
 
   // 필터 변경 시 마커 재조회
@@ -99,17 +95,15 @@ export default function Page() {
     if (boundsRef.current) {
       fetchMarkers(boundsRef.current, {
         businessType: filters.businessType ?? undefined,
-        isOpen: filters.isOpen ?? undefined,
         minRoomCount: debouncedMinRoomCount ?? undefined,
       })
     }
-  }, [filters.businessType, filters.isOpen, debouncedMinRoomCount, fetchMarkers])
+  }, [filters.businessType, debouncedMinRoomCount, fetchMarkers])
 
   const handleFiltersChange = useCallback(
     (newFilters: LodgingFilterParams) => {
       setFilters({
         businessType: newFilters.businessType ?? null,
-        isOpen: newFilters.isOpen ?? null,
         minRoomCount: newFilters.minRoomCount ?? null,
       })
     },
@@ -158,7 +152,6 @@ export default function Page() {
 
   const filterParams: LodgingFilterParams = {
     businessType: filters.businessType ?? undefined,
-    isOpen: filters.isOpen ?? undefined,
     minRoomCount: filters.minRoomCount ?? undefined,
   }
 
