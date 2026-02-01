@@ -5,7 +5,7 @@ import {Badge} from "@workspace/ui/components/badge"
 import {ScrollArea} from "@workspace/ui/components/scroll-area"
 import {Skeleton} from "@workspace/ui/components/skeleton"
 import {LodgingFilter} from "./filter"
-import type {LodgingMarker, LodgingFilterParams} from "@/types/lodging"
+import type {LodgingFilterParams, LodgingMarker} from "@/types/lodging"
 
 interface LodgingListProps {
     markers: LodgingMarker[]

@@ -24,6 +24,7 @@ export type LodgingMarker = {
   roomCount: RoomCount
   floorCount: FloorCount
   coordinate: Coordinate | null
+  assetValue: number | null
 }
 
 export type MarkersResponse = {
@@ -68,6 +69,37 @@ export type BuildingFloorOutlineInfo = {
   areaExclusionYn: string | null
 }
 
+export type MarketStats = {
+  avgAdr: number | null
+  avgOcc: number | null
+}
+
+// 잠재가치 계산 입력값
+export type PotentialValueInput = {
+  roomCount: number
+  operatingDays: number
+  adr: number
+  adrDaesil: number
+  occ: number
+  opexRatio: number
+  capRate: number
+}
+
+// 잠재가치 계산 결과
+export type PotentialValueResult = {
+  revPar: number
+  annualRevenue: number
+  operatingExpense: number
+  noi: number
+  assetValue: number
+}
+
+// 잠재가치 추정 전체
+export type PotentialValue = {
+  input: PotentialValueInput
+  result: PotentialValueResult
+}
+
 export type LodgingDetail = {
   mngNo: string
   businessName: string
@@ -83,6 +115,8 @@ export type LodgingDetail = {
   lastModifiedAt: string | null
   buildingRegisterGeneralInfo: BuildingRegisterGeneralInfo | null
   floorOutlineInfos: BuildingFloorOutlineInfo[] | null
+  marketStats: MarketStats | null
+  potentialValue: PotentialValue | null
 }
 
 export type LodgingFiltersResponse = {

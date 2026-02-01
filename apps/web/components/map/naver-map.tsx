@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { formatToEokShort } from "@/utils/number-format"
 import type { LodgingMarker } from "@/types/lodging"
 
 interface MapBounds {
@@ -142,6 +143,10 @@ export function NaverMap({
     markers.forEach((lodging) => {
       if (!lodging.coordinate) return
 
+      const assetLabel = lodging.assetValue !== null
+        ? formatToEokShort(lodging.assetValue)
+        : "-"
+
       const marker = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(
           lodging.coordinate.y,
@@ -152,7 +157,7 @@ export function NaverMap({
         icon: {
           content: `
             <div class="marker ${selectedMarker === lodging.mngNo ? "selected" : ""} ${lodging.isOpen ? "open" : "closed"}">
-              <span>${lodging.roomCount.korean + lodging.roomCount.western}</span>
+              <span>${assetLabel}</span>
             </div>
           `,
           anchor: new window.naver.maps.Point(20, 20),
