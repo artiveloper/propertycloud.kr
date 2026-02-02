@@ -239,3 +239,25 @@ When generating code:
 
 When unsure:
 - Ask ONE precise question only
+
+---
+
+## 11. Code Formatting Rules (MANDATORY)
+
+- All code MUST use **4 spaces for indentation**
+- Tabs (`\t`) are NOT allowed
+- 2-space indentation is NOT allowed
+- Applies to:
+    - TypeScript
+    - JavaScript
+    - JSON
+    - Tailwind class formatting
+    - React / JSX / TSX
+
+Example:
+```ts
+function example() {
+    if (true) {
+        console.log('4 spaces only')
+    }
+}
