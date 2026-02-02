@@ -1,1 +1,1 @@
-export { LodgingSearch } from "./lodging-search"
+export * from "./lodging-search"

@@ -11,7 +11,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@workspace/ui/components/select"
-import type {LodgingFilterParams, LodgingFiltersResponse} from "@/types/lodging"
+import {fetchLodgingFilters} from "@/domain/lodging"
+import type {LodgingFilterParams, LodgingFiltersResponse} from "@/domain/lodging"
 
 interface LodgingFilterProps {
     filters: LodgingFilterParams
@@ -22,19 +23,16 @@ export function LodgingFilter({filters, onFiltersChange}: LodgingFilterProps) {
     const [filterOptions, setFilterOptions] = useState<LodgingFiltersResponse | null>(null)
 
     useEffect(() => {
-        async function fetchFilterOptions() {
+        async function loadFilterOptions() {
             try {
-                const response = await fetch("http://localhost:8080/api/v1/lodging/filters")
-                if (response.ok) {
-                    const data: LodgingFiltersResponse = await response.json()
-                    setFilterOptions(data)
-                }
+                const data = await fetchLodgingFilters()
+                setFilterOptions(data)
             } catch (error) {
                 console.error("Failed to fetch filter options:", error)
             }
         }
 
-        fetchFilterOptions()
+        loadFilterOptions()
     }, [])
 
     const handleBusinessTypeChange = (value: string) => {

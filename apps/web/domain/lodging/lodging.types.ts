@@ -1,4 +1,4 @@
-import type { SelectOption } from './common'
+import type { SelectOption } from "@/types/common"
 
 export type Coordinate = {
   x: number
@@ -13,6 +13,13 @@ export type RoomCount = {
 export type FloorCount = {
   ground: number
   underground: number
+}
+
+export type MapBounds = {
+  minX: number
+  maxX: number
+  minY: number
+  maxY: number
 }
 
 export type LodgingMarker = {
@@ -74,7 +81,6 @@ export type MarketStats = {
   avgOcc: number | null
 }
 
-// 잠재가치 계산 입력값
 export type PotentialValueInput = {
   roomCount: number
   operatingDays: number
@@ -85,7 +91,6 @@ export type PotentialValueInput = {
   capRate: number
 }
 
-// 잠재가치 계산 결과
 export type PotentialValueResult = {
   revPar: number
   annualRevenue: number
@@ -94,7 +99,6 @@ export type PotentialValueResult = {
   assetValue: number
 }
 
-// 잠재가치 추정 전체
 export type PotentialValue = {
   input: PotentialValueInput
   result: PotentialValueResult
@@ -139,3 +143,7 @@ export type LodgingSearchResponse = {
   hasPrevious: boolean
 }
 
+export type FetchMarkersParams = {
+  bounds: MapBounds
+  filters: LodgingFilterParams
+}

@@ -1,4 +1,4 @@
-import type {BuildingRegisterGeneralInfo} from "@/types/lodging"
+import type {BuildingRegisterGeneralInfo} from "@/domain/lodging"
 import {DetailSection, DetailItem} from "./detail-item"
 
 type Props = {

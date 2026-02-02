@@ -2,19 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { formatToEokShort } from "@/utils/number-format"
-import type { LodgingMarker } from "@/types/lodging"
-
-interface MapBounds {
-  minX: number
-  maxX: number
-  minY: number
-  maxY: number
-}
-
-interface Coordinate {
-  x: number
-  y: number
-}
+import type { LodgingMarker, MapBounds, Coordinate } from "@/domain/lodging"
 
 interface NaverMapProps {
   markers: LodgingMarker[]

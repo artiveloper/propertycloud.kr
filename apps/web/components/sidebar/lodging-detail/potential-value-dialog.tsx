@@ -6,7 +6,7 @@ import {
     DialogDescription,
 } from "@workspace/ui/components/dialog"
 import {numberToHangulMixed} from "es-hangul"
-import type {LodgingDetail} from "@/types/lodging"
+import type {LodgingDetail} from "@/domain/lodging"
 import {DetailItem} from "./detail-item"
 
 type Props = {

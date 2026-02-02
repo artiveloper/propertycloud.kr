@@ -1,1 +1,1 @@
-export { LodgingFilter } from "./lodging-filter"
+export * from "./lodging-filter"

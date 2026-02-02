@@ -1,4 +1,4 @@
-import type {BuildingFloorOutlineInfo} from "@/types/lodging"
+import type {BuildingFloorOutlineInfo} from "@/domain/lodging"
 
 type FloorType = "rooftop" | "ground" | "basement"
 

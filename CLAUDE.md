@@ -43,6 +43,7 @@ domain/
     article.apis.ts
     article.types.ts
     article.models.ts
+    article.hooks.ts
     article.query-keys.ts
     article.query-options.ts
     article.prefetch.ts
@@ -51,10 +52,10 @@ domain/
 
 ### Rules
 - One domain = one responsibility
-- `index.ts` re-exports all public APIs
+- `index.ts` re-exports all public APIs using `export *` pattern
 - No cross-domain deep imports
-  - ❌ domain/article/article.query-options
-  - ✅ domain/article
+    - ❌ domain/article/article.query-options
+    - ✅ domain/article
 
 ---
 

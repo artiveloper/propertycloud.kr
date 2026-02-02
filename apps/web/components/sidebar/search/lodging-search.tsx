@@ -8,7 +8,8 @@ import { Input } from "@workspace/ui/components/input"
 import { ScrollArea } from "@workspace/ui/components/scroll-area"
 import { Skeleton } from "@workspace/ui/components/skeleton"
 import { useDebounce } from "@/hooks"
-import type { LodgingMarker, LodgingSearchResponse } from "@/types/lodging"
+import { fetchLodgingSearch } from "@/domain/lodging"
+import type { LodgingMarker } from "@/domain/lodging"
 
 interface LodgingSearchProps {
   onClose: () => void
@@ -24,7 +25,7 @@ export function LodgingSearch({ onClose, onItemClick }: LodgingSearchProps) {
 
   const debouncedKeyword = useDebounce(keyword, 300)
 
-  const fetchSearchResults = useCallback(async (searchKeyword: string) => {
+  const performSearch = useCallback(async (searchKeyword: string) => {
     if (!searchKeyword.trim()) {
       setResults([])
       setTotalCount(0)
@@ -35,20 +36,7 @@ export function LodgingSearch({ onClose, onItemClick }: LodgingSearchProps) {
     setIsLoading(true)
     setHasSearched(true)
     try {
-      const params = new URLSearchParams({
-        keyword: searchKeyword,
-        size: "50",
-      })
-
-      const response = await fetch(
-        `http://localhost:8080/api/v1/lodging/search?${params}`
-      )
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch search results")
-      }
-
-      const data: LodgingSearchResponse = await response.json()
+      const data = await fetchLodgingSearch({ keyword: searchKeyword, size: 50 })
       setResults(data.content)
       setTotalCount(data.totalElements)
     } catch (error) {
@@ -61,8 +49,8 @@ export function LodgingSearch({ onClose, onItemClick }: LodgingSearchProps) {
   }, [])
 
   useEffect(() => {
-    fetchSearchResults(debouncedKeyword)
-  }, [debouncedKeyword, fetchSearchResults])
+    performSearch(debouncedKeyword)
+  }, [debouncedKeyword, performSearch])
 
   const handleItemClick = (marker: LodgingMarker) => {
     onItemClick(marker)

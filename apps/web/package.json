@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.20",
     "@workspace/ui": "workspace:*",
     "es-hangul": "^2.3.8",
     "lucide-react": "^0.475.0",
