@@ -1,6 +1,8 @@
 "use client"
 
 import {useState} from "react"
+import {format, parseISO} from "date-fns"
+import {ko} from "date-fns/locale"
 import {X} from "lucide-react"
 import {Button} from "@workspace/ui/components/button"
 import {ScrollArea} from "@workspace/ui/components/scroll-area"
@@ -11,6 +13,7 @@ import {DetailSection, DetailItem} from "./detail-item"
 import {BuildingRegisterSection} from "./building-register-section"
 import {BuildingFloorSection} from "./building-floor-section"
 import {PotentialValueDialog} from "./potential-value-dialog"
+import {InvestmentSimulationDialog} from "./investment-simulation-dialog"
 
 type Props = {
     detail: LodgingDetail | null
@@ -20,6 +23,7 @@ type Props = {
 
 export function LodgingDetailView({detail, isLoading, onClose}: Props) {
     const [isValueDialogOpen, setIsValueDialogOpen] = useState(false)
+    const [isSimulationDialogOpen, setIsSimulationDialogOpen] = useState(false)
 
     if (isLoading) {
         return (
@@ -93,6 +97,15 @@ export function LodgingDetailView({detail, isLoading, onClose}: Props) {
                             </div>
                         )}
 
+                        {/* 투자 시뮬레이션 버튼 */}
+                        <Button
+                            variant="default"
+                            className="w-full"
+                            onClick={() => setIsSimulationDialogOpen(true)}
+                        >
+                            투자 시뮬레이션
+                        </Button>
+
                         <DetailSection title="기본 정보">
                             <DetailItem label="사업장명" value={detail.businessName}/>
                             {detail.businessTypeName && (
@@ -108,6 +121,12 @@ export function LodgingDetailView({detail, isLoading, onClose}: Props) {
                             />
                             {detail.licenseDate && (
                                 <DetailItem label="허가일" value={detail.licenseDate}/>
+                            )}
+                            {detail.lastModifiedAt && (
+                                <DetailItem
+                                    label="최종 수정일"
+                                    value={format(parseISO(detail.lastModifiedAt), "yyyy년 M월 d일 HH:mm", {locale: ko})}
+                                />
                             )}
                         </DetailSection>
 
@@ -130,12 +149,6 @@ export function LodgingDetailView({detail, isLoading, onClose}: Props) {
                         {detail.floorOutlineInfos && detail.floorOutlineInfos.length > 0 && (
                             <BuildingFloorSection floorInfos={detail.floorOutlineInfos}/>
                         )}
-
-                        <DetailSection title="기타 정보">
-                            {detail.lastModifiedAt && (
-                                <DetailItem label="최종 수정일" value={detail.lastModifiedAt}/>
-                            )}
-                        </DetailSection>
                     </div>
                 </div>
             </ScrollArea>
@@ -143,6 +156,12 @@ export function LodgingDetailView({detail, isLoading, onClose}: Props) {
             <PotentialValueDialog
                 open={isValueDialogOpen}
                 onOpenChange={setIsValueDialogOpen}
+                detail={detail}
+            />
+
+            <InvestmentSimulationDialog
+                open={isSimulationDialogOpen}
+                onOpenChange={setIsSimulationDialogOpen}
                 detail={detail}
             />
         </div>

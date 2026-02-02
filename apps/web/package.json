@@ -14,6 +14,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.20",
     "@workspace/ui": "workspace:*",
+    "date-fns": "^4.1.0",
     "es-hangul": "^2.3.8",
     "lucide-react": "^0.475.0",
     "next": "16.0.10",
