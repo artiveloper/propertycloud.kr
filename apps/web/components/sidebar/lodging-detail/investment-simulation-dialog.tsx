@@ -115,7 +115,7 @@ export function InvestmentSimulationDialog({open, onOpenChange, detail}: Props) 
                                                 <span className="text-muted-foreground">
                                                     대출금
                                                     <span className="ml-1 text-xs">
-                                                        ({data.sourceAndUse.sources.loanDescription}, {data.sourceAndUse.sources.loanRatio.toFixed(1)}%)
+                                                        {data.sourceAndUse.sources.loanRatio.toFixed(1)}%)
                                                     </span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.sources.loanAmount)}</span>
@@ -146,37 +146,30 @@ export function InvestmentSimulationDialog({open, onOpenChange, detail}: Props) 
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">
                                                     매매가
-                                                    <span className="ml-1 text-xs">({data.sourceAndUse.uses.purchasePriceDescription})</span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.uses.purchasePrice)}</span>
                                             </div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">
                                                     취등록세
-                                                    <span className="ml-1 text-xs">({data.sourceAndUse.uses.acquisitionTaxDescription})</span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.uses.acquisitionTax)}</span>
                                             </div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">
                                                     리모델링비
-                                                    <span className="ml-1 text-xs">({data.sourceAndUse.uses.remodelingCostDescription})</span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.uses.remodelingCost)}</span>
                                             </div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">
                                                     금융비
-                                                    <span className="ml-1 text-xs">
-                                                        ({data.sourceAndUse.uses.financeCostDescription}, 금리 {data.sourceAndUse.uses.interestRate}%)
-                                                    </span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.uses.financeCost)}</span>
                                             </div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">
                                                     예비비
-                                                    <span className="ml-1 text-xs">({data.sourceAndUse.uses.contingencyDescription})</span>
                                                 </span>
                                                 <span className="font-medium">{formatCurrency(data.sourceAndUse.uses.contingency)}</span>
                                             </div>
@@ -263,7 +256,7 @@ export function InvestmentSimulationDialog({open, onOpenChange, detail}: Props) 
                                                 </tr>
                                                 <tr className="border-b">
                                                     <td className="py-1.5 pr-2 text-muted-foreground">운영비용</td>
-                                                    <td className="py-1.5 pr-2 text-muted-foreground text-xs">매출의 40%</td>
+                                                    <td className="py-1.5 pr-2 text-muted-foreground"></td>
                                                     <td className="py-1.5 px-2 text-right">-</td>
                                                     {data.equityReturn.semiAnnualCashFlows.map((cf) => (
                                                         <td key={cf.period} className="py-1.5 px-2 text-right text-red-600">-{cf.operatingExpense.toLocaleString()}</td>
@@ -372,13 +365,13 @@ export function InvestmentSimulationDialog({open, onOpenChange, detail}: Props) 
                                                 </div>
                                                 <div className="flex justify-between gap-4">
                                                     <span className="text-muted-foreground">
-                                                        매각 금액 <span className="text-xs">(Cap {data.equityReturn.disposalAnalysis.capRate}%)</span>
+                                                        매각 금액
                                                     </span>
                                                     <span>{data.equityReturn.disposalAnalysis.disposalPrice.toLocaleString()}</span>
                                                 </div>
                                                 <div className="flex justify-between gap-4">
                                                     <span className="text-muted-foreground">
-                                                        매각 부대비 <span className="text-xs">(매각 비용의 {data.equityReturn.disposalAnalysis.disposalFeeRate}%)</span>
+                                                        매각 부대비
                                                     </span>
                                                     <span className="text-red-600">-{data.equityReturn.disposalAnalysis.disposalFee.toLocaleString()}</span>
                                                 </div>

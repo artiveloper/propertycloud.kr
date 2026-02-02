@@ -10,6 +10,7 @@ import { Skeleton } from "@workspace/ui/components/skeleton"
 import { useDebounce } from "@/hooks"
 import { fetchLodgingSearch } from "@/domain/lodging"
 import type { LodgingMarker } from "@/domain/lodging"
+import {formatToEok} from "@/utils/number-format";
 
 interface LodgingSearchProps {
   onClose: () => void
@@ -120,33 +121,37 @@ export function LodgingSearch({ onClose, onItemClick }: LodgingSearchProps) {
                   onClick={() => handleItemClick(marker)}
                   className="w-full border-b px-4 py-3 text-left transition-colors hover:bg-muted/50"
                 >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="truncate font-medium">
-                          {marker.businessName}
-                        </h3>
-                        <Badge
-                          variant={marker.isOpen ? "default" : "secondary"}
-                          className={
-                            marker.isOpen
-                              ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                              : ""
-                          }
-                        >
-                          {marker.isOpen ? "영업중" : "폐업"}
-                        </Badge>
-                      </div>
-                      <p className="mt-1 truncate text-sm text-muted-foreground">
-                        {marker.roadAddress}
-                      </p>
-                      {marker.businessTypeName && (
-                        <Badge variant="outline" className="mt-1">
-                          {marker.businessTypeName}
-                        </Badge>
-                      )}
+                    <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1 overflow-hidden">
+                            <h3 className="line-clamp-2 font-medium leading-snug">
+                                {marker.businessName}
+                            </h3>
+                            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                                {marker.roadAddress}
+                            </p>
+                        </div>
                     </div>
-                  </div>
+                    <div className="mt-1">
+                        {
+                            marker.assetValue &&
+                            <div className="flex gap-2 text-sm">
+                                <span className="text-muted-foreground">잠재가치추정</span>
+                                <span className="font-medium">{formatToEok(marker.assetValue)}</span>
+                            </div>
+                        }
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-x-1 text-xs text-muted-foreground">
+                        {marker.businessTypeName && (
+                            <span>{marker.businessTypeName} ·</span>
+                        )}
+                        <span>객실 {marker.roomCount.korean + marker.roomCount.western}개</span>
+                        {marker.floorCount.ground > 0 && (
+                            <span>· 지상 {marker.floorCount.ground}층</span>
+                        )}
+                        {marker.floorCount.underground > 0 && (
+                            <span>/ 지하 {marker.floorCount.underground}층</span>
+                        )}
+                    </div>
                 </button>
               </li>
             ))}

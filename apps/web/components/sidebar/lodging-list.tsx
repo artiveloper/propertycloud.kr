@@ -1,17 +1,18 @@
 "use client"
 
 import {Search} from "lucide-react"
-import {Badge} from "@workspace/ui/components/badge"
 import {ScrollArea} from "@workspace/ui/components/scroll-area"
 import {Skeleton} from "@workspace/ui/components/skeleton"
 import {LodgingFilter} from "./filter"
 import type {LodgingFilterParams, LodgingMarker} from "@/domain/lodging"
+import {formatToEok, formatToEokShort} from "@/utils/number-format";
 
 interface LodgingListProps {
     markers: LodgingMarker[]
     isLoading: boolean
     selectedMarker?: string | null
     onItemClick?: (marker: LodgingMarker) => void
+    onItemHover?: (marker: LodgingMarker) => void
     filters: LodgingFilterParams
     onFiltersChange: (filters: LodgingFilterParams) => void
     onSearchClick?: () => void
@@ -80,26 +81,27 @@ export function LodgingList({
                                             <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                                                 {marker.roadAddress}
                                             </p>
-                                            {marker.businessTypeName && (
-                                                <Badge variant="outline" className="mt-1">
-                                                    {marker.businessTypeName}
-                                                </Badge>
-                                            )}
                                         </div>
                                     </div>
-                                    <div className="mt-2 flex gap-4 text-xs text-muted-foreground">
-                    <span>
-                      객실: {marker.roomCount.korean + marker.roomCount.western}개
-                      (한실 {marker.roomCount.korean} / 양실{" "}
-                        {marker.roomCount.western})
-                    </span>
-                                        {(marker.floorCount.ground > 0 ||
-                                            marker.floorCount.underground > 0) && (
-                                            <span>
-                        층수: 지상 {marker.floorCount.ground}층
-                                                {marker.floorCount.underground > 0 &&
-                                                    ` / 지하 ${marker.floorCount.underground}층`}
-                      </span>
+                                    <div className="mt-1">
+                                        {
+                                            marker.assetValue &&
+                                            <div className="flex gap-2 text-sm">
+                                                <span className="text-muted-foreground">잠재가치추정</span>
+                                                <span className="font-medium">{formatToEok(marker.assetValue)}</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="mt-2 flex flex-wrap gap-x-1 text-xs text-muted-foreground">
+                                        {marker.businessTypeName && (
+                                            <span>{marker.businessTypeName} ·</span>
+                                        )}
+                                        <span>객실 {marker.roomCount.korean + marker.roomCount.western}개</span>
+                                        {marker.floorCount.ground > 0 && (
+                                            <span>· 지상 {marker.floorCount.ground}층</span>
+                                        )}
+                                        {marker.floorCount.underground > 0 && (
+                                            <span>/ 지하 {marker.floorCount.underground}층</span>
                                         )}
                                     </div>
                                 </button>
