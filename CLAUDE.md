@@ -78,13 +78,13 @@ domain/
 ```ts
 // article.query-keys.ts
 export const articleQueryKeys = {
-  all: ['article'] as const,
+    all: ['article'] as const,
 
-  list: (params: { page: number; category?: string }) =>
-    [...articleQueryKeys.all, 'list', params] as const,
+    list: (params: { page: number; category?: string }) =>
+        [...articleQueryKeys.all, 'list', params] as const,
 
-  detail: (articleId: number) =>
-    [...articleQueryKeys.all, 'detail', articleId] as const,
+    detail: (articleId: number) =>
+        [...articleQueryKeys.all, 'detail', articleId] as const,
 }
 ```
 
@@ -95,10 +95,15 @@ export const articleQueryKeys = {
 - All queries MUST use shared query option factories
 - No inline `useQuery({ ... })`
 - Query options must define:
-  - queryKey
-  - queryFn
-  - staleTime
-  - gcTime
+    - queryKey
+    - queryFn
+    - staleTime (optional - uses global default if omitted)
+    - gcTime (optional - uses global default if omitted)
+
+#### When to Override Cache Settings
+- ✅ Override: 실시간 데이터 (짧은 staleTime 필요)
+- ✅ Override: 정적 데이터 (긴 staleTime으로 캐시 효율화)
+- ❌ Skip: 일반적인 리스트/상세 (global 설정 사용)
 
 #### Example
 ```ts
@@ -107,19 +112,19 @@ import { articleQueryKeys } from './article.query-keys'
 import { fetchArticleList, fetchArticleDetail } from './article.apis'
 
 export const articleQueryOptions = {
-  list: (params: { page: number; category?: string }) => ({
-    queryKey: articleQueryKeys.list(params),
-    queryFn: () => fetchArticleList(params),
-    staleTime: 60_000,
-    gcTime: 5 * 60_000,
-  }),
+    // 기본 케이스: global 설정 사용 (staleTime/gcTime 생략)
+    list: (params: { page: number; category?: string }) => ({
+        queryKey: articleQueryKeys.list(params),
+        queryFn: () => fetchArticleList(params),
+    }),
 
-  detail: (articleId: number) => ({
-    queryKey: articleQueryKeys.detail(articleId),
-    queryFn: () => fetchArticleDetail(articleId),
-    staleTime: 5 * 60_000,
-    gcTime: 30 * 60_000,
-  }),
+    // 특수 케이스: global과 다른 캐시 전략이 필요할 때만 override
+    detail: (articleId: number) => ({
+        queryKey: articleQueryKeys.detail(articleId),
+        queryFn: () => fetchArticleDetail(articleId),
+        staleTime: 5 * 60_000,   // 상세 페이지는 더 오래 캐시
+        gcTime: 30 * 60_000,
+    }),
 }
 ```
 
@@ -160,23 +165,23 @@ import { QueryClient } from '@tanstack/react-query'
 import { articleQueryOptions } from './article.query-options'
 
 export const articlePrefetch = {
-  async list(
-    queryClient: QueryClient,
-    params: { page: number; category?: string }
-  ) {
-    await queryClient.prefetchQuery(
-      articleQueryOptions.list(params)
-    )
-  },
+    async list(
+        queryClient: QueryClient,
+        params: { page: number; category?: string }
+    ) {
+        await queryClient.prefetchQuery(
+            articleQueryOptions.list(params)
+        )
+    },
 
-  async detail(
-    queryClient: QueryClient,
-    articleId: number
-  ) {
-    await queryClient.prefetchQuery(
-      articleQueryOptions.detail(articleId)
-    )
-  },
+    async detail(
+        queryClient: QueryClient,
+        articleId: number
+    ) {
+        await queryClient.prefetchQuery(
+            articleQueryOptions.detail(articleId)
+        )
+    },
 }
 ```
 
