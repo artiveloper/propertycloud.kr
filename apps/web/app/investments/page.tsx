@@ -1,4 +1,3 @@
-// app/investments/page.tsx
 import Link from "next/link";
 import { mockAssets } from "./data";
 import {
@@ -17,7 +16,7 @@ export default function InvestmentsPage() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {mockAssets.map((asset) => (
                     <Link key={asset.id} href={`/investments/${asset.id}`}>
-                        <Card className="cursor-pointer transition hover:shadow-md">
+                        <Card className="cursor-pointer transition shadow-none">
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
                                     {asset.name}
