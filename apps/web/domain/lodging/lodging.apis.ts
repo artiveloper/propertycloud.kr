@@ -6,7 +6,7 @@ import type {
   FetchMarkersParams,
 } from "./lodging.types"
 
-const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`
+const API_BASE_URL = "/api/v1"
 
 export async function fetchLodgingMarkers({
   bounds,
